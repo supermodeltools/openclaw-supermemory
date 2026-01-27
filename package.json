@@ -1,0 +1,26 @@
+{
+	"name": "@supermemory/clawdbot-supermemory",
+	"version": "1.0.0",
+	"type": "module",
+	"description": "Supermemory memory plugin for Clawdbot",
+	"license": "MIT",
+	"dependencies": {
+		"supermemory": "^4.0.0",
+		"@sinclair/typebox": "0.34.47"
+	},
+	"scripts": {
+		"check-types": "tsc --noEmit",
+		"build:lib": "esbuild lib/validate.ts --bundle --minify --format=esm --platform=node --target=es2022 --external:node:crypto --outfile=lib/validate.js"
+	},
+	"peerDependencies": {
+		"clawdbot": ">=2026.1.24"
+	},
+	"clawdbot": {
+		"extensions": [
+			"./index.ts"
+		]
+	},
+	"devDependencies": {
+		"typescript": "^5.9.3"
+	}
+}

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.arch/
+lib/*.ts
+!lib/*.d.ts
+
+*.tsbuildinfo
+.DS_Store
+pnpm-lock.yaml
