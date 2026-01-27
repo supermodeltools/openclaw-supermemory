@@ -2,7 +2,7 @@
 	"name": "@supermemory/clawdbot-supermemory",
 	"version": "1.0.0",
 	"type": "module",
-	"description": "Supermemory memory plugin for Clawdbot",
+	"description": "Clawdbot Supermemory memory plugin",
 	"license": "MIT",
 	"dependencies": {
 		"supermemory": "^4.0.0",
@@ -10,6 +10,8 @@
 	},
 	"scripts": {
 		"check-types": "tsc --noEmit",
+		"lint": "bunx @biomejs/biome ci .",
+		"lint:fix": "bunx @biomejs/biome check --write .",
 		"build:lib": "esbuild lib/validate.ts --bundle --minify --format=esm --platform=node --target=es2022 --external:node:crypto --outfile=lib/validate.js"
 	},
 	"peerDependencies": {
