@@ -1,11 +1,15 @@
 # Supermemory Plugin for Clawdbot
 
+<img width="1200" height="628" alt="Announcement-3 (2)" src="https://github.com/user-attachments/assets/caa5acaa-8246-4172-af3a-9cfed2a452c1" />
+
+
+
 Long-term memory for Clawdbot. Automatically remembers conversations, recalls relevant context, and builds a persistent user profile — all powered by [Supermemory](https://supermemory.ai) cloud. No local infrastructure required.
 
 ## Install
 
 ```bash
-clawdbot plugins install /path/to/clawdbot-supermemory
+clawdbot plugins install @supermemoryai/clawdbot-supermemory
 ```
 
 Restart Clawdbot after installing.
