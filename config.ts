@@ -118,7 +118,8 @@ export function parseConfig(raw: unknown): SupermemoryConfig {
 				? ("everything" as const)
 				: ("all" as const),
 		debug: (cfg.debug as boolean) ?? false,
-		enableCustomContainerTags: (cfg.enableCustomContainerTags as boolean) ?? false,
+		enableCustomContainerTags:
+			(cfg.enableCustomContainerTags as boolean) ?? false,
 		customContainers,
 		customContainerInstructions:
 			typeof cfg.customContainerInstructions === "string"

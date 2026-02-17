@@ -115,7 +115,10 @@ export class SupermemoryClient {
 		return results
 	}
 
-	async getProfile(query?: string, containerTag?: string): Promise<ProfileResult> {
+	async getProfile(
+		query?: string,
+		containerTag?: string,
+	): Promise<ProfileResult> {
 		const tag = containerTag ?? this.containerTag
 
 		log.debugRequest("profile", { containerTag: tag, query })

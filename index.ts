@@ -36,7 +36,6 @@ export default {
 		const client = new SupermemoryClient(cfg.apiKey, cfg.containerTag)
 
 		let sessionKey: string | undefined
-		let messageProvider: string | undefined
 		const getSessionKey = () => sessionKey
 
 		registerSearchTool(api, client, cfg)
@@ -50,8 +49,6 @@ export default {
 				"before_agent_start",
 				(event: Record<string, unknown>, ctx: Record<string, unknown>) => {
 					if (ctx.sessionKey) sessionKey = ctx.sessionKey as string
-					if (ctx.messageProvider)
-						messageProvider = ctx.messageProvider as string
 					return recallHandler(event, ctx)
 				},
 			)

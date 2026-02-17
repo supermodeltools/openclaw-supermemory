@@ -205,7 +205,9 @@ export function buildRecallHandler(
 			}
 
 			const finalContext = contextParts.join("\n\n")
-			log.debug(`injecting context (${finalContext.length} chars, turn ${turn})`)
+			log.debug(
+				`injecting context (${finalContext.length} chars, turn ${turn})`,
+			)
 			return { prependContext: finalContext }
 		} catch (err) {
 			log.error("recall failed", err)

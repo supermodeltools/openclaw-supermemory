@@ -72,7 +72,9 @@ export function registerCliSetup(api: OpenClawPluginApi): void {
 					fs.writeFileSync(configPath, JSON.stringify(config, null, 2))
 
 					console.log("\n✓ API key saved to ~/.openclaw/openclaw.json")
-					console.log("  Restart OpenClaw to apply changes: openclaw gateway --force\n")
+					console.log(
+						"  Restart OpenClaw to apply changes: openclaw gateway --force\n",
+					)
 				})
 
 			cmd
@@ -106,31 +108,47 @@ export function registerCliSetup(api: OpenClawPluginApi): void {
 						console.log("Warning: API key should start with 'sm_'\n")
 					}
 
-					const containerTag = await ask(`Container tag [openclaw_${defaultTag}]: `)
+					const containerTag = await ask(
+						`Container tag [openclaw_${defaultTag}]: `,
+					)
 
 					console.log("\nAuto-recall:")
-					console.log("  true  - Inject relevant memories before each AI response (recommended)")
+					console.log(
+						"  true  - Inject relevant memories before each AI response (recommended)",
+					)
 					console.log("  false - Disable automatic memory recall")
 					const autoRecallInput = await ask("Auto-recall (true/false) [true]: ")
 					let autoRecall = true
 					if (autoRecallInput.trim().toLowerCase() === "false") {
 						autoRecall = false
-					} else if (autoRecallInput.trim() && autoRecallInput.trim().toLowerCase() !== "true") {
+					} else if (
+						autoRecallInput.trim() &&
+						autoRecallInput.trim().toLowerCase() !== "true"
+					) {
 						console.log("  Invalid value, using default: true")
 					}
 
 					console.log("\nAuto-capture:")
-					console.log("  true  - Save conversations to memory after each AI response (recommended)")
+					console.log(
+						"  true  - Save conversations to memory after each AI response (recommended)",
+					)
 					console.log("  false - Disable automatic conversation capture")
-					const autoCaptureInput = await ask("Auto-capture (true/false) [true]: ")
+					const autoCaptureInput = await ask(
+						"Auto-capture (true/false) [true]: ",
+					)
 					let autoCapture = true
 					if (autoCaptureInput.trim().toLowerCase() === "false") {
 						autoCapture = false
-					} else if (autoCaptureInput.trim() && autoCaptureInput.trim().toLowerCase() !== "true") {
+					} else if (
+						autoCaptureInput.trim() &&
+						autoCaptureInput.trim().toLowerCase() !== "true"
+					) {
 						console.log("  Invalid value, using default: true")
 					}
 
-					const maxResultsInput = await ask("Max memories to recall per turn (1-20) [10]: ")
+					const maxResultsInput = await ask(
+						"Max memories to recall per turn (1-20) [10]: ",
+					)
 					let maxRecallResults = 10
 					const parsedMax = Number.parseInt(maxResultsInput.trim(), 10)
 					if (maxResultsInput.trim()) {
@@ -141,7 +159,9 @@ export function registerCliSetup(api: OpenClawPluginApi): void {
 						}
 					}
 
-					const profileFreqInput = await ask("Inject full profile every N turns (1-500) [50]: ")
+					const profileFreqInput = await ask(
+						"Inject full profile every N turns (1-500) [50]: ",
+					)
 					let profileFrequency = 50
 					const parsedFreq = Number.parseInt(profileFreqInput.trim(), 10)
 					if (profileFreqInput.trim()) {
@@ -153,30 +173,47 @@ export function registerCliSetup(api: OpenClawPluginApi): void {
 					}
 
 					console.log("\nCapture mode:")
-					console.log("  all        - Filter short texts and context blocks (recommended)")
+					console.log(
+						"  all        - Filter short texts and context blocks (recommended)",
+					)
 					console.log("  everything - Capture all messages without filtering")
-					const captureModeInput = await ask("Capture mode (all/everything) [all]: ")
+					const captureModeInput = await ask(
+						"Capture mode (all/everything) [all]: ",
+					)
 					let captureMode: "all" | "everything" = "all"
 					if (captureModeInput.trim().toLowerCase() === "everything") {
 						captureMode = "everything"
-					} else if (captureModeInput.trim() && captureModeInput.trim().toLowerCase() !== "all") {
+					} else if (
+						captureModeInput.trim() &&
+						captureModeInput.trim().toLowerCase() !== "all"
+					) {
 						console.log("  Invalid value, using default: all")
 					}
 
 					console.log("\n--- Custom Container Tags (Advanced) ---")
 					console.log("Define custom containers for AI-driven memory routing.")
-					const enableCustomContainerTagsInput = await ask("Enable custom container tags? (true/false) [false]: ")
+					const enableCustomContainerTagsInput = await ask(
+						"Enable custom container tags? (true/false) [false]: ",
+					)
 					let enableCustomContainerTags = false
 					if (enableCustomContainerTagsInput.trim().toLowerCase() === "true") {
 						enableCustomContainerTags = true
-					} else if (enableCustomContainerTagsInput.trim() && enableCustomContainerTagsInput.trim().toLowerCase() !== "false") {
+					} else if (
+						enableCustomContainerTagsInput.trim() &&
+						enableCustomContainerTagsInput.trim().toLowerCase() !== "false"
+					) {
 						console.log("  Invalid value, using default: false")
 					}
 
-					console.log("\nAdd custom containers (tag:description). Leave blank when done.")
-					const customContainers: Array<{ tag: string; description: string }> = []
+					console.log(
+						"\nAdd custom containers (tag:description). Leave blank when done.",
+					)
+					const customContainers: Array<{ tag: string; description: string }> =
+						[]
 					while (true) {
-						const containerInput = await ask("Container (e.g. work:Work projects): ")
+						const containerInput = await ask(
+							"Container (e.g. work:Work projects): ",
+						)
 						if (!containerInput.trim()) break
 						const [tag, ...descParts] = containerInput.split(":")
 						const description = descParts.join(":").trim()
@@ -191,7 +228,9 @@ export function registerCliSetup(api: OpenClawPluginApi): void {
 						}
 					}
 
-					const customContainerInstructions = await ask("Custom container tag instructions (optional): ")
+					const customContainerInstructions = await ask(
+						"Custom container tag instructions (optional): ",
+					)
 
 					rl.close()
 
@@ -214,16 +253,22 @@ export function registerCliSetup(api: OpenClawPluginApi): void {
 					}
 
 					if (containerTag.trim()) {
-						pluginConfig.containerTag = containerTag.trim().replace(/[^a-zA-Z0-9_]/g, "_")
+						pluginConfig.containerTag = containerTag
+							.trim()
+							.replace(/[^a-zA-Z0-9_]/g, "_")
 					}
 					if (!autoRecall) pluginConfig.autoRecall = false
 					if (!autoCapture) pluginConfig.autoCapture = false
-					if (maxRecallResults !== 10) pluginConfig.maxRecallResults = maxRecallResults
-					if (profileFrequency !== 50) pluginConfig.profileFrequency = profileFrequency
+					if (maxRecallResults !== 10)
+						pluginConfig.maxRecallResults = maxRecallResults
+					if (profileFrequency !== 50)
+						pluginConfig.profileFrequency = profileFrequency
 					if (captureMode !== "all") pluginConfig.captureMode = captureMode
-					if (enableCustomContainerTags) pluginConfig.enableCustomContainerTags = true
+					if (enableCustomContainerTags)
+						pluginConfig.enableCustomContainerTags = true
 					if (customContainerInstructions.trim()) {
-						pluginConfig.customContainerInstructions = customContainerInstructions.trim()
+						pluginConfig.customContainerInstructions =
+							customContainerInstructions.trim()
 					}
 					if (customContainers.length > 0) {
 						pluginConfig.customContainers = customContainers
@@ -242,17 +287,25 @@ export function registerCliSetup(api: OpenClawPluginApi): void {
 
 					console.log("\n✓ Configuration saved to ~/.openclaw/openclaw.json")
 					console.log("\nSettings:")
-					console.log(`  API key:          ${apiKey.slice(0, 8)}...${apiKey.slice(-4)}`)
-					console.log(`  Container tag:    ${containerTag.trim() || `openclaw_${defaultTag}`}`)
+					console.log(
+						`  API key:          ${apiKey.slice(0, 8)}...${apiKey.slice(-4)}`,
+					)
+					console.log(
+						`  Container tag:    ${containerTag.trim() || `openclaw_${defaultTag}`}`,
+					)
 					console.log(`  Auto-recall:      ${autoRecall}`)
 					console.log(`  Auto-capture:     ${autoCapture}`)
 					console.log(`  Max results:      ${maxRecallResults}`)
 					console.log(`  Profile freq:     ${profileFrequency}`)
 					console.log(`  Capture mode:     ${captureMode}`)
-					console.log(`  Custom containers: ${enableCustomContainerTags ? "enabled" : "disabled"}`)
+					console.log(
+						`  Custom containers: ${enableCustomContainerTags ? "enabled" : "disabled"}`,
+					)
 					console.log(`  Custom containers: ${customContainers.length}`)
 					if (customContainerInstructions.trim()) {
-						console.log(`  Routing instructions: "${customContainerInstructions.trim().slice(0, 50)}${customContainerInstructions.length > 50 ? "..." : ""}"`)
+						console.log(
+							`  Routing instructions: "${customContainerInstructions.trim().slice(0, 50)}${customContainerInstructions.length > 50 ? "..." : ""}"`,
+						)
 					}
 					console.log("\nRestart OpenClaw to apply: openclaw gateway --force\n")
 				})
@@ -261,7 +314,11 @@ export function registerCliSetup(api: OpenClawPluginApi): void {
 				.command("status")
 				.description("Check Supermemory configuration status")
 				.action(async () => {
-					const configPath = path.join(os.homedir(), ".openclaw", "openclaw.json")
+					const configPath = path.join(
+						os.homedir(),
+						".openclaw",
+						"openclaw.json",
+					)
 					const envKey = process.env.SUPERMEMORY_OPENCLAW_API_KEY
 					const defaultTag = `openclaw_${os.hostname().replace(/[^a-zA-Z0-9_]/g, "_")}`
 
@@ -306,15 +363,27 @@ export function registerCliSetup(api: OpenClawPluginApi): void {
 						? pluginConfig.customContainers
 						: []
 
-					console.log(`✓ API key:         ${apiKeyDisplay} (from ${apiKeySource})`)
+					console.log(
+						`✓ API key:         ${apiKeyDisplay} (from ${apiKeySource})`,
+					)
 					console.log(`  Enabled:          ${enabled}`)
-					console.log(`  Container tag:    ${pluginConfig.containerTag ?? defaultTag}`)
+					console.log(
+						`  Container tag:    ${pluginConfig.containerTag ?? defaultTag}`,
+					)
 					console.log(`  Auto-recall:      ${pluginConfig.autoRecall ?? true}`)
 					console.log(`  Auto-capture:     ${pluginConfig.autoCapture ?? true}`)
-					console.log(`  Max results:      ${pluginConfig.maxRecallResults ?? 10}`)
-					console.log(`  Profile freq:     ${pluginConfig.profileFrequency ?? 50}`)
-					console.log(`  Capture mode:     ${pluginConfig.captureMode ?? "all"}`)
-					console.log(`  Custom containers: ${pluginConfig.enableCustomContainerTags ? "enabled" : "disabled"}`)
+					console.log(
+						`  Max results:      ${pluginConfig.maxRecallResults ?? 10}`,
+					)
+					console.log(
+						`  Profile freq:     ${pluginConfig.profileFrequency ?? 50}`,
+					)
+					console.log(
+						`  Capture mode:     ${pluginConfig.captureMode ?? "all"}`,
+					)
+					console.log(
+						`  Custom containers: ${pluginConfig.enableCustomContainerTags ? "enabled" : "disabled"}`,
+					)
 					console.log(`  Custom containers: ${customContainers.length}`)
 					console.log("")
 				})
